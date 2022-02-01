@@ -2,18 +2,19 @@
 #    move into module for question and turn method: self.is_correct?(response)
 
 class Question
-  attr_accessor :first, :second, 
+  attr_accessor :first, :second
 
   def initialize()
-    @first = rand(1...21)
-    @second = rand(1...21)
+    # prng = Random.new
+    @first =  Random.new.rand(1..21)
+    @second = Random.new.rand(1..21)
   end
 
-  self.is_correct?(number)
+  def is_correct?(number)
     number == first + second
   end
 
-  self.print_question
+  def print_question
     puts "What does #{first} plus #{second} equal?"
   end
 

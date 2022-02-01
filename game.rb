@@ -12,38 +12,35 @@ class Game
     @players << player2 = Player.new(player2)
     @current_player = players[0]
     @turn_count = 1
-    @winner = nil
   end
 
-  self.print_status
-    puts "#{players[0].name}: #{players[0].life_count}/#{Player.LIVES} vs 
-      #{players[1].name}: #{players[1].lives_count}/#{Player.LIVES}"
+  def print_status
+    puts "#{players[0].name}: #{players[0].lives_count}/#{Player::LIVES} vs #{players[1].name}: #{players[1].lives_count}/#{Player::LIVES}"
   end
 
-  self.run_game
+  def run_game
     loop do  
       puts "----- NEW TURN -----"
       print"#{current_player.name}:"
       question = Question.new
       question.print_question
-      answer = gets.chomp.to_a
+      answer = gets.chomp.to_i
+      question.is_correct?(answer) ? current_player.lives_count += 0 : current_player.lives_count -= 1
       if current_player.is_dead?
-        ready_for_next_question && puts "#{current_player.name} wins with a score of #{current_player.lives_count}/#{Player.LIVES}"
+        prepare_for_next_question
+        puts "#{current_player.name} wins with a score of #{current_player.lives_count}/#{Player::LIVES}"
         break
-      elsif answer.is_correct?
-        ready_for_next_question
-        print_status
       else
-        current_player.lives_count -= 1
-        ready_for_next_question
+        prepare_for_next_question
         print_status
       end
+    end
   end
 
-  private
+  
   def prepare_for_next_question
-    turn_count +=1
-    turn_count % 2 == 0 ? current_player = players[1] : current_player = players[0]; 
+    self.turn_count += 1
+    turn_count % 2 == 0 ? self.current_player = players[1] : self.current_player = players[0]; 
   end
 
 end

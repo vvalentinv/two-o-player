@@ -10,7 +10,7 @@ class Player
     @lives_count = LIVES
   end
 
-  def self.is_dead?
+  def is_dead?
     lives_count == 0
   end
 end
